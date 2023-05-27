@@ -232,3 +232,96 @@ For me, the main categories are :
 1. [databases](./04-using-3rd-party-containers#a-databases)
 2. [interactive test environments](./04-using-3rd-party-containers#b-interactive-test-environments) (Operating systems and Programming runtimes)
 3. [CLI utilities](./04-using-3rd-party-containers#c-cli-utilities)
+
+# Example Web Application
+
+Building out a realistic microservice application to containerize.
+
+a minimal 3-tier web application, It has the following components:
+
+- React front end
+- NodeJS API
+- Golang API
+- Postgres Database
+
+
+
+first we can explore the code and run it on our host system directly.
+
+make sure the cureent path is the root folder of this repository.
+
+## Setting up the Postgres Database
+
+```shell
+docker run -d \
+	-e POSTGRES_PASSWORD=foobarbaz \
+	-v pgdata:/var/lib/postgresql/data \
+	-p 5432:5432 \
+	postgres:15.1-alpine
+```
+
+or
+
+```shell
+pushd 05-example-web-application/
+make run-postgres
+```
+
+listening on IPv4 address "0.0.0.0", port 5432
+
+## Running the Node.js API
+
+```shell
+pushd 05-example-web-application/api-node
+npm install
+DATABASE_URL=postgres://postgres:foobarbaz@localhost:5432/postgres \
+	npm run dev
+```
+
+or
+
+```shell
+pushd 05-example-web-application/
+make run-api-node
+```
+
+Example app listening on port 3000
+
+## Running the Golang API
+
+```shell
+pushd 05-example-web-application/api-golang
+mkdir go-workspace
+export GOPATH=$PWD/go-workspace
+go mod download
+DATABASE_URL=postgres://postgres:foobarbaz@localhost:5432/postgres \
+    go run main.go
+```
+
+or
+
+```shell
+pushd 05-example-web-application/
+make run-api-golang
+```
+
+Listening and serving HTTP on :8080
+
+## Running the React Client
+
+```shell
+pushd 05-example-web-application/client-react
+npm install
+DATABASE_URL=postgres://postgres:foobarbaz@localhost:5432/postgres \
+	npm run dev
+```
+
+or
+
+```shell
+pushd 05-example-web-application/
+make run-client-react
+```
+
+**Local**:  http://localhost:5173/
+

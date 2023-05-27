@@ -1,4 +1,6 @@
 DATABASE_URL:=postgres://postgres:foobarbaz@localhost:5432/postgres
+API_NODE_URL :=http://localhost:3000
+API_GOLANG_URL :=http://localhost:8080
 
 .PHONY: run-postgres
 run-postgres:
@@ -27,4 +29,6 @@ run-api-golang:
 run-client-react:
 	@echo Starting react client
 	cd client-react && \
+		API_NODE_URL=${API_NODE_URL} \
+		API_GOLANG_URL=${API_GOLANG_URL} \
 		npm run dev
