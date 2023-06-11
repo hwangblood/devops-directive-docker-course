@@ -1,0 +1,8 @@
+# Pin specific version
+#-------------------------------------------
+# Pin specific version (use slim for reduced image size)
+FROM node:19.6-bullseye-slim
+#-------------------------------------------
+COPY . .
+RUN npm install
+CMD [ "npm", "run", "dev" ]

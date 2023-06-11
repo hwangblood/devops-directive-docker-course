@@ -1,0 +1,16 @@
+FROM node:19.6-bullseye-slim
+#-------------------------------------------
+# Use LABELS to provide additional info
+LABEL org.opencontainers.image.authors="sid@devopsdirective.com"
+#-------------------------------------------
+ENV NODE_ENV production
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm ci --only=production
+USER node
+COPY --chown=node:node ./src/ .
+#-------------------------------------------
+# Indicate expected port
+EXPOSE 3000
+#-------------------------------------------
+CMD [ "node", "index.js" ]

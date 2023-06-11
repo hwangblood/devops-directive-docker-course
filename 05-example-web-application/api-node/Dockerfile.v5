@@ -1,0 +1,14 @@
+FROM node:19.6-bullseye-slim
+#-------------------------------------------
+# Set NODE_ENV
+ENV NODE_ENV production
+#-------------------------------------------
+WORKDIR /usr/src/app
+COPY package*.json ./
+#-------------------------------------------
+# Install only production dependencies
+RUN npm ci --only=production
+#-------------------------------------------
+USER node
+COPY --chown=node:node ./src/ .
+CMD [ "node", "index.js" ]
