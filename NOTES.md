@@ -1033,6 +1033,65 @@ For general-purpose use, the `node:slim (Bullseye)` image is a good choice due t
 
 https://courses.devopsdirective.com/docker-beginner-to-pro/lessons/06-building-container-images/07-additional-dockerfile-features
 
-## Container Registries
+# Container Registries
+
+Use container registries such as Dockerhub to share and distribute container images.
+
+## Authentication and Pushing Images
+
+To push an image to a remote repo, you need to:
+
+Authenticate to the repo
+Tag the image with a tag corresponding to the repo
+Each registry will have its own set of instructions for logging in. The process will generally involve using a command like docker login and providing your credentials.
+
+## Example: Pushing to Docker Hub
+
+1. Authenticate with Docker Hub:
+
+```bash
+docker login
+```
+
+1. Tag your image with your Docker Hub username and the repository name:
+
+```bash
+docker tag my_scratch_image:latest myusername/my_scratch_image:latest
+```
+
+1. Push the image to DockerHub:
+
+```bash
+docker push myusername/my_scratch_image:latest
+```
+
+## Example: Pushing to GitHub Container Registry
+
+1. Authenticate with GitHub Container Registry:
+
+```bash
+echo "TOKEN" | docker login ghcr.io -u USERNAME --password-stdin
+```
+
+1. Tag your image with the registry prefix, your GitHub username, and the repository name:
+
+```bash
+docker tag my_scratch_image:latest ghcr.io/myusername/my_scratch_image:latest
+```
+
+1. Push the image to GitHub Container Registry:
+
+```bash
+docker push ghcr.io/myusername/my_scratch_image:latest
+```
+
+## Tagging Best Practices
+
+- Avoid using the latest tag, and instead use descriptive tags for your images.
+- The same image can have multiple tags, so use tags that are useful for the end user.
+- Treat tags as immutable, except for temporary tags used for development.
+- Common tag elements include timestamps, build IDs, commit hashes, and semver release versions.
+
+# Running Containers
 
 ...
